@@ -1,0 +1,42 @@
+schemaVersion: 2.1.0
+metadata:
+  name: svm-beta
+components:
+  - container:
+      env:
+        - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
+          value: /remote-endpoint/plugin-remote-endpoint
+        - name: THEIA_PLUGINS
+          value: 'local-dir:///plugins/sidecars/universal-developer-image'
+        - name: CHE_DASHBOARD_URL
+          value: 'https://192.168.49.2.nip.io'
+        - name: CHE_PLUGIN_REGISTRY_URL
+          value: 'https://192.168.49.2.nip.io/plugin-registry/v3'
+        - name: CHE_PLUGIN_REGISTRY_INTERNAL_URL
+          value: 'http://plugin-registry.eclipse-che.svc:8080/v3'
+        - name: OPENVSX_REGISTRY_URL
+          value: 'https://open-vsx.org'
+      image: 'artifactory-mb.harman.com:5036/aebt/ubi:0.2'
+      memoryLimit: 2Gi
+      sourceMapping: /projects
+    name: universal-developer-image
+  - container:
+      args:
+        - sh
+        - '-c'
+        - tail -f /dev/null  
+      image: 'artifactory-mb.harman.com:5036/aebt/cluster_hmi_build_docker:0.1'
+      memoryLimit: 4Gi
+      sourceMapping: /projects
+    name: cluster-build-image
+commands:
+  - exec:
+      commandLine: ./rpm_compile.sh && echo "\e[32mDone.\e[0m cluster-build-image"
+      component: cluster-build-image
+      workingDir: /projects/svm-beta
+    id: build-svm-app
+  - exec:
+      commandLine: 'scp -P ${input:port} ${input:path} ${input:user}@${input:host}:/home/${input:user} && ssh -p ${input:port} ${input:user}@${input:host} rpm -Uvh --force --nodeps ${input:file} && echo Install rpm done, restarting app && ssh -p ${input:port} ${input:user}@${input:host} source /opt/svm-beta/launch.sh && echo -e "\e[32mDone.\e[0m instant-deploy"'
+      component: universal-developer-image
+      workingDir: /projects/svm-beta
+    id: upload-cluster-app
