@@ -16,7 +16,7 @@ components:
           value: 'http://plugin-registry.eclipse-che.svc:8080/v3'
         - name: OPENVSX_REGISTRY_URL
           value: 'https://open-vsx.org'
-      image: 'artifactory-mb.harman.com:5036/aebt/ubi:0.2'
+      image: 'artifactory-mb.harman.com:5036/aebt/ubi:next'
       memoryLimit: 2Gi
       sourceMapping: /projects
     name: universal-developer-image
