@@ -62,7 +62,7 @@ inline:
       volume: {}
     - name: che-code-injector
       container:
-        image: artifactory-mb.harman.com:5036/aebt/che-code:0.1
+        image: artifactory-mb.harman.com:5036/aebt/che-code:next
         command:
           - /entrypoint-init-container.sh
         volumeMounts:
