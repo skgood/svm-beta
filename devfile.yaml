@@ -25,7 +25,7 @@ components:
         - sh
         - '-c'
         - tail -f /dev/null  
-      image: 'artifactory-mb.harman.com:5036/aebt/cluster_hmi_build_docker:0.1'
+      image: 'artifactory-mb.harman.com:5036/aebt/abi:next'
       memoryLimit: 4Gi
       sourceMapping: /projects
     name: cluster-build-image
