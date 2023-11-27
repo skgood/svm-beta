@@ -12,7 +12,7 @@ inline:
   components:
     - name: che-code-runtime-description
       container:
-        image: quay.io/devfile/universal-developer-image@sha256:d1709bbdfa076474f58f796026a2ed2dd3b24fea7e51ce2cc984e729663ff62c
+        image: artifactory-mb.harman.com:5036/aebt/ubi:next
         command:
           - /checode/entrypoint-volume.sh
         volumeMounts:
